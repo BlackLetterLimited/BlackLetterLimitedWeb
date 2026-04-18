@@ -240,6 +240,97 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 860px)");
+    const reducedMotionQuery = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    const revealSelector = [
+      ".hero__content > .eyebrow",
+      ".hero h1",
+      ".hero__lede",
+      ".hero__fact",
+      ".section-heading",
+      ".about-layout__copy",
+      ".about-credentials",
+      ".leadership-card",
+      ".capability-card",
+      ".product-card",
+      ".contact-panel__copy",
+      ".contact-panel__actions",
+      ".procurement-card",
+      ".footer__column--brand",
+      ".footer__base",
+    ].join(", ");
+
+    let observer = null;
+
+    const clearRevealState = () => {
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+
+      document.querySelectorAll(".mobile-reveal").forEach((element) => {
+        element.classList.remove("mobile-reveal", "is-visible");
+        element.style.removeProperty("--reveal-delay");
+      });
+    };
+
+    const setupRevealState = () => {
+      clearRevealState();
+
+      const revealElements = Array.from(
+        document.querySelectorAll(revealSelector),
+      );
+
+      if (!mobileQuery.matches || reducedMotionQuery.matches) {
+        return;
+      }
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          rootMargin: "0px 0px -14% 0px",
+          threshold: 0.16,
+        },
+      );
+
+      revealElements.forEach((element, index) => {
+        element.classList.add("mobile-reveal");
+        element.style.setProperty("--reveal-delay", `${(index % 4) * 80}ms`);
+
+        if (element.getBoundingClientRect().top < window.innerHeight * 0.86) {
+          element.classList.add("is-visible");
+          return;
+        }
+
+        observer.observe(element);
+      });
+    };
+
+    setupRevealState();
+    mobileQuery.addEventListener("change", setupRevealState);
+    reducedMotionQuery.addEventListener("change", setupRevealState);
+    window.addEventListener("resize", setupRevealState);
+
+    return () => {
+      mobileQuery.removeEventListener("change", setupRevealState);
+      reducedMotionQuery.removeEventListener("change", setupRevealState);
+      window.removeEventListener("resize", setupRevealState);
+      clearRevealState();
+    };
+  }, []);
+
   const navLinks = [
     { href: "#about", label: "About" },
     { href: "#capabilities", label: "Capabilities" },
