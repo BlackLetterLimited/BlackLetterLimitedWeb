@@ -96,7 +96,7 @@ select {
   position: relative;
   width: min(1360px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 1rem 0 3rem;
+  padding: 0 0 3rem;
 }
 
 .site-shell::before {
@@ -116,7 +116,7 @@ select {
 
 .masthead {
   position: sticky;
-  top: 1rem;
+  top: 0;
   z-index: 20;
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -127,6 +127,10 @@ select {
   background: rgba(10, 13, 17, 0.84);
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow);
+}
+
+.masthead__menu-button {
+  display: none;
 }
 
 .masthead__brand {
@@ -156,6 +160,10 @@ select {
 .masthead__brand-copy {
   display: grid;
   gap: 0.15rem;
+}
+
+.masthead__mobile-logo {
+  display: none;
 }
 
 .masthead__brand-name {
@@ -289,7 +297,7 @@ select {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(16rem, 0.68fr) minmax(0, 1fr);
+  grid-template-columns: minmax(12rem, 0.42fr) minmax(0, 1.2fr);
   grid-template-areas: 'visual content';
   gap: clamp(2rem, 3.2vw, 4rem);
   align-items: stretch;
@@ -307,7 +315,6 @@ select {
 
 .hero__content {
   grid-area: content;
-  max-width: 42rem;
   animation: rise-in 620ms ease both;
 }
 
@@ -328,7 +335,6 @@ select {
 }
 
 .hero h1 {
-  max-width: 11.4ch;
   margin-top: 0.7rem;
   font-size: clamp(2.95rem, 4.7vw, 4.95rem);
   line-height: 0.97;
@@ -353,7 +359,6 @@ select {
 
 .hero__lede {
   margin: 1rem 0 0;
-  max-width: 36rem;
   font-size: 1rem;
 }
 
@@ -372,7 +377,6 @@ select {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
-  max-width: 35rem;
   margin: 1.45rem 0 0;
 }
 
@@ -404,7 +408,7 @@ select {
   grid-area: visual;
   display: grid;
   align-self: stretch;
-  width: min(100%, 31rem);
+  width: min(100%, 24rem);
   animation: rise-in 760ms ease both;
 }
 
@@ -445,7 +449,7 @@ select {
 .hero__splash-plate {
   position: relative;
   z-index: 1;
-  width: min(23rem, 78%);
+  width: min(18rem, 74%);
   filter: drop-shadow(0 28px 54px rgba(0, 0, 0, 0.35));
 }
 
@@ -1029,18 +1033,8 @@ select {
     padding-top: 0.9rem;
   }
 
-  .hero h1 {
-    max-width: none;
-  }
-
   .hero__visual {
-    align-self: center;
-    width: min(100%, 28rem);
-  }
-
-  .hero__splash {
-    min-height: 22rem;
-    height: auto;
+    display: none;
   }
 }
 
@@ -1051,17 +1045,113 @@ select {
   }
 
   .site-shell {
-    width: min(100% - 1rem, 1360px);
+    width: 100%;
+  }
+
+  .page,
+  .footer {
+    padding-inline: 1rem;
   }
 
   .masthead {
-    grid-template-columns: 1fr;
-    justify-items: start;
-    gap: 1rem;
+    grid-template-columns: 3rem 1fr 3rem;
+    align-items: center;
+    justify-items: center;
+    gap: 0;
+    height: var(--mobile-header-height, min(18rem, 38vh));
+    padding: clamp(0.35rem, 1.5vh, 0.65rem) 1rem;
+  }
+
+  .masthead__menu-button {
+    display: inline-flex;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    align-self: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.32rem;
+    width: min(2.75rem, calc(20vh - 1rem));
+    height: min(2.75rem, calc(20vh - 1rem));
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 0.3rem;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--text);
+    opacity: var(--mobile-menu-opacity, 0);
+    pointer-events: var(--mobile-menu-pointer-events, none);
+    transition: opacity 180ms ease;
+  }
+
+  .masthead__menu-button span {
+    display: block;
+    width: 1.1rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .masthead__brand {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
+    gap: 0;
+    max-height: 100%;
+    text-align: center;
+  }
+
+  .masthead__mark,
+  .masthead__brand-name,
+  .masthead__brand-meta {
+    display: none;
+  }
+
+  .masthead__brand-copy {
+    place-items: center;
+    max-height: 100%;
+  }
+
+  .masthead__mobile-logo {
+    display: block;
+    width: auto;
+    max-width: min(22rem, 88vw);
+    height: var(--mobile-logo-height, min(16rem, calc(38vh - 2rem)));
+    object-fit: contain;
   }
 
   .masthead__nav {
-    justify-content: flex-start;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    display: grid;
+    justify-content: stretch;
+    gap: 0;
+    width: min(18rem, calc(100vw - 2rem));
+    padding: 0.65rem;
+    border: 1px solid var(--line);
+    background: rgba(10, 13, 17, 0.96);
+    box-shadow: var(--shadow);
+    transform: translateX(-105%);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .masthead__nav.is-open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .masthead__nav a {
+    padding: 0.95rem 0.8rem;
+  }
+
+  .masthead__nav a::after {
+    display: none;
   }
 
   .hero {
@@ -1087,8 +1177,7 @@ select {
 
 @media (max-width: 640px) {
   .masthead {
-    top: 0.5rem;
-    padding: 0.85rem;
+    padding: clamp(0.35rem, 1.5vh, 0.65rem) 0.85rem;
   }
 
   .masthead__brand-meta,

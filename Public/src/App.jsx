@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const heroFacts = [
   {
     label: "Products",
-    value: "ArmyRegs.ai / Courtmartial App",
+    value: "ArmyRegs.ai & the Courtmartial App",
   },
   {
     label: "Focus",
@@ -18,15 +18,15 @@ const heroFacts = [
 const founderSignals = [
   {
     title: "Mission background",
-    text: "The founders have worked inside the kinds of legal environments this software serves. They know the users and the constraints.",
+    text: "Our principals have worked inside the kinds of legal environments this software serves. They know the users, the constraints, and what success looks like.",
   },
   {
-    title: "Advanced legal training",
-    text: "Each founder brings LL.M. training in military law and national security law, which helps keep the work disciplined and precise.",
+    title: "Legal background",
+    text: "Each principal brings advanced training in government, military, and national security law, which helps keep the work disciplined and precise.",
   },
   {
-    title: "Technical ownership",
-    text: "They do not just direct the work. They help build it, so product decisions stay close to the mission.",
+    title: "Technical background",
+    text: "Lawyers do not just direct the work. They help build it, so product decisions stay close to the mission.",
   },
 ];
 
@@ -35,30 +35,28 @@ const capabilities = [
     index: "01",
     title: "Research Tools",
     text: "Software for regulations, policy, doctrine, and governing authorities.",
-    items: ["Built around real legal tasks", "Fast access to source material"],
-  },
-  {
-    index: "02",
-    title: "Compliance Workflows",
-    text: "AI-enabled systems for review and compliance work where traceability matters.",
-    items: ["Source-grounded outputs", "Human review compatible"],
-  },
-  {
-    index: "03",
-    title: "Adaptable RAG",
-    text: "Reusable retrieval and reasoning systems for policy, regulatory, and compliance use.",
     items: [
-      "Configurable across new corpora",
-      "Citation-oriented workflow support",
+      "Built around real legal tasks",
+      "No hallucinations",
+      "Verifiable citations",
     ],
   },
   {
-    index: "04",
-    title: "Closed-Network Support",
-    text: "Development support for more constrained deployment environments.",
+    index: "02",
+    title: "Customizable RAG Soultions",
+    text: "We use Retrieval-Augmented Generation (RAG) to create systems tied to the specific language of policy, regulatory, and compliance documents.",
     items: [
-      "Mission-aware implementation",
-      "Built for tighter operational constraints",
+      "Configurable across new regulations, policiy documents, or administrative decisions.",
+      "Citation-oriented outputs to make it easy to verify accuracy.",
+    ],
+  },
+  {
+    index: "03",
+    title: "Closed-Network Support",
+    text: "Development support for secured deployment environments.",
+    items: [
+      "Designed to work on secure networks with constrained connectivity.",
+      "Customizable to fit specific data handling and security requirements.",
     ],
   },
 ];
@@ -68,12 +66,12 @@ const products = [
     name: "ArmyRegs.ai",
     category: "Regulatory Intelligence",
     summary:
-      "Research and analysis for Army regulations with source-based answers and precise citations.",
+      "Army regulation research and analysis with source-based answers and precise, verifiable citations.",
     description:
-      "Built for legal and operational users who need governing material quickly.",
+      "Built for legal and operational users who need quick ACCURATE answers.",
     highlights: [
       "Source-grounded answers",
-      "Citation-oriented workflow",
+      "Citation-verifiable outputs",
       "Operationally relevant design",
     ],
     href: "https://armyregs.ai",
@@ -86,23 +84,23 @@ const products = [
     name: "Courtmartial App",
     category: "Military Justice Tools",
     summary: "A mobile reference tool for military justice work.",
-    description:
-      "Benchbook access, offense navigation, and courtroom-ready utility.",
+    description: "Benchbook, resource, and MCM access where you need it.",
     highlights: [
-      "Electronic Benchbook access",
-      "Offense navigation",
-      "Built for practice in motion",
+      "Mobile-accessible Electronic Benchbook ",
+      "Up-to-date MCM and resource library",
+      "Built for practitioners by practitioners",
     ],
     image: "./CMApp.png",
     imageClass: "product-card__image--phone",
     theme: "slate",
   },
   {
-    name: "Adaptable RAG Capability",
-    category: "Configurable AI Framework",
-    summary: "A reusable source-grounded retrieval and reasoning capability.",
+    name: "Adaptable RAG Models",
+    category: "Configurable, Accurate AI Frameworks",
+    summary:
+      "We can quickly and easily develop source-grounded AI models tailored to specific policy, regulatory, and compliance needs.",
     description:
-      "Adaptable to broader policy, regulatory, and compliance tasks.",
+      "Convert any body of regulations, policies, or compliance documents into accurate, verifiable AI outputs.",
     highlights: [
       "Source-based outputs",
       "Constrained deployment friendly",
@@ -138,7 +136,7 @@ const procurementFacts = [
   },
   {
     label: "Certification",
-    value: "Disabled Veteran Owned certification anticipated by launch",
+    value: "Veteran Owned ",
   },
   {
     label: "Development support",
@@ -146,14 +144,131 @@ const procurementFacts = [
   },
 ];
 
+const showHeroActions = false;
+const showCapabilityStatementButtons = false;
+const showSecuritySection = false;
+const showFooterProducts = false;
+const showFooterProcurement = false;
+
 export default function App() {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  useEffect(() => {
+    let frameId = null;
+
+    const updateMobileHeaderScale = () => {
+      frameId = null;
+
+      if (!window.matchMedia("(max-width: 860px)").matches) {
+        document.documentElement.style.removeProperty("--mobile-header-height");
+        document.documentElement.style.removeProperty("--mobile-logo-height");
+        document.documentElement.style.removeProperty("--mobile-menu-opacity");
+        document.documentElement.style.removeProperty(
+          "--mobile-menu-pointer-events",
+        );
+        return;
+      }
+
+      const scrollProgress = Math.min(window.scrollY / 180, 1);
+      const compactHeaderHeight = 72;
+      const previousExpandedLogoHeight = Math.min(window.innerWidth * 0.34, 128);
+      const expandedLogoHeight = Math.min(
+        previousExpandedLogoHeight * 2,
+        window.innerHeight * 0.38,
+        window.innerWidth * 0.72,
+      );
+      const expandedHeaderHeight = Math.max(
+        compactHeaderHeight,
+        expandedLogoHeight + 32,
+        window.innerHeight * 0.2,
+      );
+      const compactLogoHeight = 48;
+      const isHeaderCompact = scrollProgress === 1;
+
+      const headerHeight =
+        expandedHeaderHeight -
+        (expandedHeaderHeight - compactHeaderHeight) * scrollProgress;
+      const logoHeight =
+        expandedLogoHeight -
+        (expandedLogoHeight - compactLogoHeight) * scrollProgress;
+
+      document.documentElement.style.setProperty(
+        "--mobile-header-height",
+        `${Math.round(headerHeight)}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--mobile-logo-height",
+        `${Math.round(logoHeight)}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--mobile-menu-opacity",
+        isHeaderCompact ? "1" : "0",
+      );
+      document.documentElement.style.setProperty(
+        "--mobile-menu-pointer-events",
+        isHeaderCompact ? "auto" : "none",
+      );
+
+      if (!isHeaderCompact) {
+        setIsMobileNavOpen(false);
+      }
+    };
+
+    const requestHeaderUpdate = () => {
+      if (frameId === null) {
+        frameId = window.requestAnimationFrame(updateMobileHeaderScale);
+      }
+    };
+
+    requestHeaderUpdate();
+    window.addEventListener("scroll", requestHeaderUpdate, { passive: true });
+    window.addEventListener("resize", requestHeaderUpdate);
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      window.removeEventListener("scroll", requestHeaderUpdate);
+      window.removeEventListener("resize", requestHeaderUpdate);
+      document.documentElement.style.removeProperty("--mobile-header-height");
+      document.documentElement.style.removeProperty("--mobile-logo-height");
+      document.documentElement.style.removeProperty("--mobile-menu-opacity");
+      document.documentElement.style.removeProperty(
+        "--mobile-menu-pointer-events",
+      );
+    };
+  }, []);
+
+  const navLinks = [
+    { href: "#about", label: "About" },
+    { href: "#capabilities", label: "Capabilities" },
+    { href: "#products", label: "Products" },
+    ...(showSecuritySection ? [{ href: "#security", label: "Security" }] : []),
+    { href: "#contact", label: "Contact" },
+  ];
+
   return (
     <div className="site-shell">
       <header className="masthead">
+        <button
+          className="masthead__menu-button"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded={isMobileNavOpen}
+          aria-controls="primary-navigation"
+          onClick={() => setIsMobileNavOpen((isOpen) => !isOpen)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
         <a
           className="masthead__brand"
           href="#top"
           aria-label="Blackletter Limited home"
+          onClick={() => setIsMobileNavOpen(false)}
         >
           <span className="masthead__mark">
             <img
@@ -163,6 +278,11 @@ export default function App() {
             />
           </span>
           <span className="masthead__brand-copy">
+            <img
+              className="masthead__mobile-logo"
+              src="./BLWhite.png"
+              alt="Blackletter Limited"
+            />
             <span className="masthead__brand-name">
               Blackletter
               <span className="masthead__brand-limited">Limited</span>
@@ -173,21 +293,31 @@ export default function App() {
           </span>
         </a>
 
-        <nav className="masthead__nav" aria-label="Primary">
-          <a href="#about">About</a>
-          <a href="#capabilities">Capabilities</a>
-          <a href="#products">Products</a>
-          <a href="#security">Security</a>
-          <a href="#contact">Contact</a>
+        <nav
+          className={`masthead__nav${isMobileNavOpen ? " is-open" : ""}`}
+          id="primary-navigation"
+          aria-label="Primary"
+        >
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              key={link.href}
+              onClick={() => setIsMobileNavOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
-        <a
-          className="button button--nav"
-          href="./capability-statement.html"
-          download="Blackletter-Capability-Statement.html"
-        >
-          Capability Statement
-        </a>
+        {showCapabilityStatementButtons ? (
+          <a
+            className="button button--nav"
+            href="./capability-statement.html"
+            download="Blackletter-Capability-Statement.html"
+          >
+            Capability Statement
+          </a>
+        ) : null}
       </header>
 
       <main className="page" id="top">
@@ -197,27 +327,29 @@ export default function App() {
               AI-Powered Legal-Tech for Government and National Security
             </p>
             <h1>
-              Legal and compliance software for teams that need reliable
-              answers.
+              Legal and compliance consulting and software for teams that need
+              reliable answers.
             </h1>
             <p className="hero__lede">
-              Blackletter builds AI-enabled tools for legal research, policy,
-              and compliance work. Designed by attorneys who know the job and
-              write code.
+              Blackletter builds custom AI-enabled tools for legal research,
+              policy, and compliance work. Designed by attorneys who understand
+              the job and write code to get it done.
             </p>
 
-            <div className="hero__actions">
-              <a
-                className="button button--primary"
-                href="./capability-statement.html"
-                download="Blackletter-Capability-Statement.html"
-              >
-                Download Capability Statement
-              </a>
-              <a className="button button--secondary" href="#contact">
-                Subcontracting Inquiries
-              </a>
-            </div>
+            {showHeroActions ? (
+              <div className="hero__actions">
+                <a
+                  className="button button--primary"
+                  href="./capability-statement.html"
+                  download="Blackletter-Capability-Statement.html"
+                >
+                  Download Capability Statement
+                </a>
+                <a className="button button--secondary" href="#contact">
+                  Subcontracting Inquiries
+                </a>
+              </div>
+            ) : null}
 
             <dl className="hero__facts">
               {heroFacts.map((fact) => (
@@ -249,10 +381,12 @@ export default function App() {
             <p className="eyebrow">About</p>
             <h2>Built by people who know the work.</h2>
             <p>
-              There is nothing worse than bad government software.Blackletter
-              makes software for teams that work with rules, risk, and real
-              operational constraints. The goal is straightforward: useful
-              tools, grounded outputs, and software that fits the job.
+              There is nothing worse than bad government software. Blackletter
+              helps design your compliance processes and then develops software
+              for teams that work with rules, risk, and real operational catered
+              to your needs. Beautiful UIs, intutive UX, and highly accurate
+              results. The goal is straightforward: useful tools, grounded
+              outputs, and software that fits the job.
             </p>
           </div>
 
@@ -261,7 +395,8 @@ export default function App() {
               <p>
                 We focus on legal research, regulatory analysis, and compliance
                 workflows where the source material matters and the interface
-                needs to make sense to real users.
+                needs to make sense to real users: lawyers and non-lawyers
+                alike.
               </p>
             </div>
 
@@ -270,13 +405,16 @@ export default function App() {
               aria-label="Founder credentials"
             >
               <div className="about-credentials__item">
-                Former JAGs and federal prosecutors
+                Former goverment attorneys with experience in military, national
+                security, and administrative law
               </div>
               <div className="about-credentials__item">
-                LL.M. training in military law and national security law
+                Advanced training in law, technology, and national security
+                policy
               </div>
               <div className="about-credentials__item">
-                Substantial programming experience across the founding team
+                Substantial programming experience and technical development
+                backgrounds
               </div>
             </aside>
           </div>
@@ -389,22 +527,24 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section" id="security">
-          <div className="section-heading">
-            <p className="eyebrow">Security / Trust</p>
-            <h2>Built for controlled environments.</h2>
-            <p>Data handling, source fidelity, and human review matter here.</p>
-          </div>
+        {showSecuritySection ? (
+          <section className="section" id="security">
+            <div className="section-heading">
+              <p className="eyebrow">Security / Trust</p>
+              <h2>Built for controlled environments.</h2>
+              <p>Data handling, source fidelity, and human review matter here.</p>
+            </div>
 
-          <div className="security-grid security-grid--standalone">
-            {securityPillars.map((item) => (
-              <article className="security-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+            <div className="security-grid security-grid--standalone">
+              {securityPillars.map((item) => (
+                <article className="security-card" key={item.title}>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="section section--contact" id="contact">
           <div className="contact-panel">
@@ -421,13 +561,15 @@ export default function App() {
               </div>
 
               <div className="contact-panel__actions">
-                <a
-                  className="button button--primary"
-                  href="./capability-statement.html"
-                  download="Blackletter-Capability-Statement.html"
-                >
-                  Download Capability Statement
-                </a>
+                {showCapabilityStatementButtons ? (
+                  <a
+                    className="button button--primary"
+                    href="./capability-statement.html"
+                    download="Blackletter-Capability-Statement.html"
+                  >
+                    Download Capability Statement
+                  </a>
+                ) : null}
                 <a className="button button--secondary" href="#top">
                   Start a Conversation
                 </a>
@@ -456,21 +598,25 @@ export default function App() {
             </p>
           </div>
 
-          <div className="footer__column">
-            <p className="footer__heading">Products</p>
-            <p className="footer__text">ArmyRegs.ai</p>
-            <p className="footer__text">Courtmartial App</p>
-            <p className="footer__text">Adaptable RAG capability</p>
-          </div>
+          {showFooterProducts ? (
+            <div className="footer__column">
+              <p className="footer__heading">Products</p>
+              <p className="footer__text">ArmyRegs.ai</p>
+              <p className="footer__text">Courtmartial App</p>
+              <p className="footer__text">Adaptable RAG capability</p>
+            </div>
+          ) : null}
 
-          <div className="footer__column">
-            <p className="footer__heading">Procurement</p>
-            <p className="footer__text">NAICS 541511 / 541512 / 541519</p>
-            <p className="footer__text">Small Business</p>
-            <p className="footer__text">
-              Disabled Veteran Owned certification anticipated by launch
-            </p>
-          </div>
+          {showFooterProcurement ? (
+            <div className="footer__column">
+              <p className="footer__heading">Procurement</p>
+              <p className="footer__text">NAICS 541511 / 541512 / 541519</p>
+              <p className="footer__text">Small Business</p>
+              <p className="footer__text">
+                Disabled Veteran Owned certification anticipated by launch
+              </p>
+            </div>
+          ) : null}
         </div>
 
         <div className="footer__base">
