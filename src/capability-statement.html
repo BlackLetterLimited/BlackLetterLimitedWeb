@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blackletter Capability Statement</title>
+    <style>
+      :root {
+        --paper: #f7f3ec;
+        --ink: #141714;
+        --ink-soft: #4d554d;
+        --line: rgba(20, 23, 20, 0.12);
+        --olive: #1a221a;
+        --gold: #9d8050;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: linear-gradient(var(--paper), #fcfaf6);
+      }
+
+      .page {
+        width: min(960px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 2rem 0 3rem;
+      }
+
+      .header,
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(255, 251, 244, 0.9);
+      }
+
+      .header {
+        padding: 1.5rem;
+      }
+
+      .header img {
+        width: 220px;
+        max-width: 100%;
+        display: block;
+      }
+
+      .eyebrow {
+        margin: 1rem 0 0;
+        font-size: 0.78rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: "Iowan Old Style", "Baskerville", serif;
+        line-height: 1.05;
+      }
+
+      h1 {
+        margin-top: 0.85rem;
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p,
+      li {
+        line-height: 1.7;
+        color: var(--ink-soft);
+      }
+
+      .lead {
+        max-width: 48rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .grid--2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .panel {
+        padding: 1.25rem;
+      }
+
+      ul {
+        margin: 0.75rem 0 0;
+        padding-left: 1.1rem;
+      }
+
+      .footer-note {
+        margin-top: 1rem;
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 700px) {
+        .grid--2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="header">
+        <img src="./BL Logo.png" alt="Blackletter Limited logo" />
+        <p class="eyebrow">Capability Statement</p>
+        <h1>AI-enabled legal and compliance software for government and national security environments</h1>
+        <p class="lead">
+          Blackletter develops practitioner-built software for legal research,
+          regulatory analysis, and compliance workflows. Built by former JAGs
+          and federal prosecutors with substantial programming experience, our
+          tools are designed around real workflows, source-grounded outputs, and
+          the practical constraints of public-sector use.
+        </p>
+      </section>
+
+      <div class="grid grid--2">
+        <section class="panel">
+          <p class="eyebrow">Core Competencies</p>
+          <ul>
+            <li>Legal and regulatory research tools</li>
+            <li>Retrieval-augmented generation systems for compliance applications</li>
+            <li>Source-grounded AI workflows with citation-oriented outputs</li>
+            <li>Custom software development for legal and operational use cases</li>
+            <li>Closed-network and constrained-environment development support</li>
+            <li>Practitioner-informed workflow design</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Products and Solutions</p>
+          <ul>
+            <li>ArmyRegs.ai</li>
+            <li>Courtmartial App</li>
+            <li>Adaptable RAG models for broader compliance and policy tasks</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Differentiators</p>
+          <ul>
+            <li>Founded by former JAGs and federal prosecutors</li>
+            <li>Deep familiarity with military and government legal workflows</li>
+            <li>Advanced training in military law and national security law</li>
+            <li>Strong technical development capability</li>
+            <li>Support for development in closed-network environments</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Business Information</p>
+          <ul>
+            <li>NAICS: 541511, 541512, 541519</li>
+            <li>Business Status: Small Business</li>
+            <li>Disabled veteran-owned small business</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top: 1rem;">
+        <p class="eyebrow">Engagement</p>
+        <h2>Government-facing, mission-aware, and subcontract-ready</h2>
+        <p>
+          Blackletter welcomes capability reviews, pilot discussions, and
+          subcontracting inquiries from prime contractors and government
+          partners. We focus on software that is accurate, usable, and adaptable
+          to government environments, including closed-network settings where
+          security and deployment constraints matter.
+        </p>
+        <p class="footer-note">
+          Point-of-contact, UEI, and CAGE fields can be added for final release.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
